@@ -19,8 +19,8 @@ sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
 sasopts <- "-nosplash -ls 75"
 
 # Linux options (for grading, please leave this in!)
-sasexe <- "/usr/local/SASHome/SASFoundation/9.4/bin/sas_en"
-sasopts <- "-ls 75"
+# sasexe <- "/usr/local/SASHome/SASFoundation/9.4/bin/sas_en"
+# sasopts <- "-ls 75"
 ```
 
 ## Instructions
