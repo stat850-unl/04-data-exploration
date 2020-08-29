@@ -9,14 +9,18 @@ knitr::opts_chunk$set(echo = TRUE)
 options(digits = 3)
 ```
 
+
 ```{r load-sas-libraries, echo = F, message = F, warning = F}
 
-saspath <- "/usr/local/SASHome/SASFoundation/9.4/bin/sas_en" # Your SAS path goes here
-sasopts <- "-ls 75"
-knitr::opts_chunk$set(engine.path=list(sas=saspath, saslog=saspath, sashtml=saspath),
-                      engine.opts=list(sas=sasopts, saslog=sasopts, sashtml=sasopts), 
-                      comment=NA)
 library(SASmarkdown)
+sas_enginesetup(sashtml=sashtml)
+
+sasexe <- "C:/Program Files/SASHome/SASFoundation/9.4/sas.exe"
+sasopts <- "-nosplash -ls 75"
+
+# Linux options (for grading, please leave this in!)
+sasexe <- "/usr/local/SASHome/SASFoundation/9.4/bin/sas_en"
+sasopts <- "-ls 75"
 ```
 
 ## Instructions
@@ -52,13 +56,14 @@ You may want to include graphics (using the sample code in the book, or the [R G
 (You don't need to keep these headings, but I want you to have a skeleton of what the code chunks should look like)
 
 ```{r}
+library(readr)
 data <- read_csv("https://github.com/srvanderplas/unl-stat850/raw/master/data/General_Payment_Data_Sample.csv")
 
 ```
 
 ### SAS
 Fill in your code in the chunk below.
-```{sashtml data-import, error = T, collectcode=T}
+```{r, engine="sashtml", engine.path=sasexe, engine.opts=sasopts, collectcode = T, error = T}
 filename dat "General_Payment_Data_Sample.csv";
 
 PROC IMPORT DATAFILE = dat OUT = openmedpay 
@@ -71,25 +76,7 @@ RUN;
 ```
 
 You can delete the information below if you don't need it, but these are handy tricks for using sasmarkdown. 
-```{sashtml, collectcode=T}
+```{r tricks, engine="sashtml", engine.path=sasexe, engine.opts=sasopts, error = T}
 /* The collectcode=T option lets you reference data in other chunks, just like in R */
   
 ```
-
-
-```{sas, eval = F, collectcode=T}
-/* If you want to print the SAS log out, use these chunks */
-/* Note that this is in a sas chunk, but the R chunk below actually prints */
-/* the log file in Rmarkdown */
-  
-proc printto log="saslog.log" new; /* This comes at the start of the chunk */
-
-/* You can use this sequence of chunks as many times as you want in a document */
-```
-
-```{r}
-cat(readLines("saslog.log"), sep="\n")
-# Do not forget to remove the log file when you are done!
-unlink("saslog.log")
-```
-
